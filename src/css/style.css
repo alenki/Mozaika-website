@@ -673,6 +673,39 @@ iconify-icon.category-icon {
   }
 }
 
+.imageblock {
+  overflow: hidden; 
+  border-radius: 300px; 
+  border: 20px solid rgba(227, 234, 240, 1); 
+  /* margin-right: 3rem; */
+}
+
+.rounded-img {
+  min-width: 100%; 
+  height: 400px; 
+  object-fit: cover; 
+  display: block;
+}
+
+/* Планшеты (от 576px до 991px) */
+@media (max-width: 991.98px) and (min-width: 576px) {
+  .rounded-img {
+    height: 300px;
+  }
+  .imageblock {
+  margin-right: 0rem;
+  }
+}
+
+/* Телефоны (меньше 576px) */
+@media (max-width: 575.98px) {
+  .rounded-img {
+    height: 250px;
+  }
+  .imageblock {
+  margin-right: 0rem;
+  }
+}
 
 
 /* Classes Section
