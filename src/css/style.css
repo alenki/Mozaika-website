@@ -75,8 +75,10 @@ CSS STRUCTURE:
 
 /* Fonts */
 :root {
-  --heading-font: "Grand Hotel", cursive;
-  --body-font: "Lora", serif;
+  --heading-font: "Montserrat Alternates", regular;
+  --body-font: "Montserrat", regular;
+  --title-font: "Bellota", regular;
+  --site-logo-font: "Great Vibes", regular; 
 }
 
 /*----------------------------------------------*/
@@ -115,6 +117,7 @@ html, body {
 
 p {
   color: var(--dark-color);
+  
 }
 
 a {
@@ -466,8 +469,12 @@ li.social-icon:hover {
 }
 
 a.nav-link {
+  font-family: var(--heading-font);
+  font-size: 1rem;
   text-transform: capitalize;
   color: var(--dark-color);
+  border-radius: 5px;
+  padding: 0 10px;
 }
 
 a.nav-link:focus {
@@ -476,8 +483,11 @@ a.nav-link:focus {
 
 a.nav-link.active,
 a.nav-link:hover {
-  color: var(--primary-color) !important;
+  color: #ffffff !important;
   outline: none;
+  background-color: var(--primary-color) !important;
+  border-radius: 5px;
+  padding: 0 10px;
 }
 
 #primary-header .dropdown .search::after {
@@ -498,7 +508,17 @@ a.nav-link:hover {
   border-radius: 0.25rem;
 }
 
+.site-logo-box{
+  display: flex;
+  /* flex-wrap: nowrap; */
+  align-items: center;
+}
 
+.site-logo {
+  font-family: var(--site-logo-font);
+  font-size: 2rem;
+  margin: 0.4rem 0 0 0.2rem;
+}
 
 /* 4.2 Slider Section
 /*----------------------------------------------*/
@@ -520,6 +540,18 @@ section#slider .main-slider-button-next.swiper-button-disabled,
 
 .banner-title {
   color: #FFF;
+  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.27);
+  font-family: var(--title-font);
+  font-weight: 500;
+}
+
+.banner-title-2 {
+  color: rgba(101, 69, 69, 1);
+  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.27);
+}
+
+.banner-title-3 {
+  color: rgba(185, 184, 184, 1);
   text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.27);
 }
 
@@ -726,6 +758,9 @@ a.hover-color h2:hover {
   color: var(--accent-color);
 }
 
+.news-text {
+  font-size: 1.1rem;
+}
 
 /* Footer Section
 /*----------------------------------------------*/
