@@ -144,3 +144,32 @@
   }); // End of a document
 
 })(jQuery);
+
+// contact form
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const formData = new FormData(this);
+
+  try {
+    const response = await fetch('send-to-telegram.php', {
+      method: 'POST',
+      body: formData
+    });
+
+    const result = await response.json();
+    const resultDiv = document.getElementById('result');
+
+    if (result.success) {
+      alert("✅ Сообщение отправлено!");
+      this.reset();
+      resultDiv.innerHTML = '<div class="alert alert-success">Спасибо! Мы скоро свяжемся с вами.</div>';
+    } else {
+      alert("❌ Ошибка: " + result.error);
+      resultDiv.innerHTML = '<div class="alert alert-danger">Ошибка отправки: ' + result.error + '</div>';
+    }
+  } catch (error) {
+    console.error("Ошибка:", error);
+    document.getElementById('result').innerHTML = '<div class="alert alert-danger">Не удалось отправить форму.</div>';
+  }
+});
