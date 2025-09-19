@@ -620,11 +620,6 @@ section#slider .main-slider-button-next.swiper-button-disabled,
 /* Our Services
 /*----------------------------------------------*/
 
-.categories-item {
-  pointer-events: none;
-  cursor: none;
-}
-
 iconify-icon.category-icon {
   font-size: 80px;
 }
