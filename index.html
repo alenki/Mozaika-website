@@ -168,13 +168,20 @@
           <img src="/images/main-logo.png" class="logo img-fluid">
           <p class="site-logo">Mozaika</p>
         </a>
-        <button class="navbar-toggler border-0 d-flex d-xl-none order-3 p-2 shadow-none" type="button"
+        <!-- <button class="navbar-toggler border-0 d-flex d-xl-none order-3 p-2 shadow-none" type="button"
           data-bs-toggle="offcanvas" data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false">
           <svg class="navbar-icon" width="60" height="60">
             <use xlink:href="#navbar-icon"></use>
           </svg>
-        </button>
-        <div class="header-bottom offcanvas offcanvas-end" id="bdNavbar" aria-labelledby="bdNavbarOffcanvasLabel">
+        </button> -->
+        <button id="navbarToggler"
+        class="navbar-toggler border-0 d-flex d-xl-none order-3 p-2 shadow-none"
+        type="button" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
+  <svg class="navbar-icon" width="60" height="60">
+    <use xlink:href="#navbar-icon"></use>
+  </svg>
+</button>
+        <div class="header-bottom offcanvas offcanvas-end" id="bdNavbar" aria-labelledby="bdNavbarOffcanvasLabel" >
           <div class="offcanvas-header px-4 pb-0">
             <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close"
               data-bs-target="#bdNavbar"></button>
@@ -182,10 +189,10 @@
           <div class="offcanvas-body align-items-center justify-content-end">
             <ul class="navbar-nav mb-2 mb-lg-0">
               <li class="nav-item px-2 py-2 my-2 py-lg-0">
-                <a class="nav-link active" aria-current="page" href="index.html">Главная</a>
+                <a class="nav-link active" aria-current="page" href="#">Главная</a>
               </li>
               <li class="nav-item px-2 py-2 my-2 py-lg-0">
-                <a id="nav-link_school" class="nav-link" href="javascript: void(0)" role="button"
+                <a id="nav-link_school" class="nav-link" href="#school" role="button"
                   aria-expanded="false">Школа</a>
               </li>
               <li class="nav-item px-2 py-2 my-2 py-lg-0">
@@ -1128,6 +1135,26 @@
   <!-- Script -->
   <script type="module" src="src/js/script.js"></script>
   <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <!-- Fix for navbar closing properly -->
+  <script>
+    (function () {
+      const ocEl = document.getElementById('bdNavbar');
+      const toggleBtn = document.getElementById('navbarToggler');
+  
+      // Create/get instance and open/close it manually
+      const oc = bootstrap.Offcanvas.getOrCreateInstance(ocEl, { backdrop: true, scroll: true });
+  
+      toggleBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        oc.toggle();
+      });
+  
+      // Optional: make sure nothing focused causes scroll on close
+      ocEl.addEventListener('hidden.bs.offcanvas', function () {
+        if (document.activeElement) document.activeElement.blur();
+      });
+    })();
+  </script>
 </body>
 
 </html>
