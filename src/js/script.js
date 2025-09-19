@@ -173,3 +173,40 @@ document.getElementById('contactForm').addEventListener('submit', async function
     document.getElementById('result').innerHTML = '<div class="alert alert-danger">Не удалось отправить форму.</div>';
   }
 });
+
+// const navbar = document.getElementById('bdNavbar');
+// document.getElementById('nav-link_school').addEventListener('click', function (event){
+//   console.log("hey")
+// var navbar_offcanvas = bootstrap.Offcanvas.getInstance(navbar);
+//   navbar_offcanvas.hide();
+
+//   // document.getElementById("school").scrollIntoView();
+  
+// })
+
+// close navbar on click
+
+// const toggler = document.querySelector('.button-close');
+// document.addEventListener('click', function (event) {
+  // console.log(event.target.classList)
+  // document.querySelector('.btn-close').click();
+  // console.log(bsCollapse)
+
+
+  // if(event.target.classList.contains('nav-link')){
+  // navbar_offcanvas.hide()
+    // new bootstrap.Collapse(navbar).toggle();
+    // var bsCollapse = bootstrap.Collapse(navbar, { toggle: false });
+    // navbar.hide();
+    // var hey = bootstrap.Modal(navbar)
+    // bootstrap.Offcanvas.getInstance(document.getElementById('bdNavbar')).hide();
+  // }
+
+  // If navbar is open and the click is outside
+  // if (navbar.classList.contains('show') &&
+  //     navbar !=  event.target &&
+  //     toggler != event.target) {
+  //     console.log('hey')
+    // new bootstrap.Collapse(navbar).toggle();
+  // }
+// });
