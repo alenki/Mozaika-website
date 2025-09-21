@@ -1139,7 +1139,7 @@
       const toggleBtn = document.getElementById('navbarToggler');
   
       // Create/get instance and open/close it manually
-      const oc = bootstrap.Offcanvas.getOrCreateInstance(ocEl, { backdrop: true, scroll: true });
+      const oc = bootstrap.Offcanvas.getOrCreateInstance(ocEl, { backdrop: true, scroll: false });
   
       toggleBtn.addEventListener('click', function (e) {
         e.preventDefault();
