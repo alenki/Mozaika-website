@@ -146,34 +146,37 @@
 })(jQuery);
 
 // contact form
-document.getElementById('contactForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
-
-  const formData = new FormData(this);
-
-  try {
-    const response = await fetch('send-to-telegram.php', {
-      method: 'POST',
-      body: formData
-    });
-
-    const result = await response.json();
-    const resultDiv = document.getElementById('result');
-
-    if (result.success) {
-      alert("✅ Сообщение отправлено!");
-      this.reset();
-      resultDiv.innerHTML = '<div class="alert alert-success">Спасибо! Мы скоро свяжемся с вами.</div>';
-    } else {
-      alert("❌ Ошибка: " + result.error);
-      resultDiv.innerHTML = '<div class="alert alert-danger">Ошибка отправки: ' + result.error + '</div>';
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('contactForm');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            formData.append('timestamp', Date.now());
+            formData.append('nonce', Math.random().toString(36).substring(2, 15));
+            
+            // Используем /backend/ путь
+            fetch('/backend/send_message.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Сообщение успешно отправлено!');
+                    this.reset();
+                } else {
+                    alert('Ошибка: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                alert('Произошла ошибка при отправке сообщения');
+            });
+        });
     }
-  } catch (error) {
-    console.error("Ошибка:", error);
-    document.getElementById('result').innerHTML = '<div class="alert alert-danger">Не удалось отправить форму.</div>';
-  }
 });
-
 
 // close navbar on click
 const navbar = document.getElementById('bdNavbar');
