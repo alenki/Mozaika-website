@@ -5,9 +5,9 @@ header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
 
 // Конфигурация
-define('TELEGRAM_BOT_TOKEN', getenv('TELEGRAM_BOT_TOKEN') ?: '7856949783:AAGdmRSC4sQvoQi3F5bm5GHGUw16RAeg-I0');
-define('TELEGRAM_CHAT_ID', getenv('TELEGRAM_CHAT_ID') ?: '892980299');
-define('HMAC_SECRET', getenv('HMAC_SECRET') ?: 'secret-gay');
+define('TELEGRAM_BOT_TOKEN', getenv('TELEGRAM_BOT_TOKEN') ?: '-');
+define('TELEGRAM_CHAT_ID', getenv('TELEGRAM_CHAT_ID') ?: '2060119820');
+define('HMAC_SECRET', getenv('HMAC_SECRET') ?: 'your-secret-key');
 
 // Ограничение количества запросов
 session_start();
@@ -67,7 +67,9 @@ function sendToTelegram($data, $signature) {
     $message .= "🔒 Подпись (HMAC): " . $signature . "\n";
     $message .= "⏰ Время: " . date('d.m.Y H:i:s') . "\n";
     
-    $url = "https://api.telegram.org/bot" . TELEGRAM_BOT_TOKEN . "/sendMessage";
+    // $url = "https://api.telegram.org/bot" . TELEGRAM_BOT_TOKEN . "/sendMessage";
+    $url = "https://cor-it.tech/send_message";
+
     
     $postData = [
         'chat_id' => TELEGRAM_CHAT_ID,
@@ -84,7 +86,7 @@ function sendToTelegram($data, $signature) {
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Для локальной разработки
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Для локальной разработки
         
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
