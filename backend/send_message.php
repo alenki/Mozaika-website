@@ -2,12 +2,14 @@
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Content-Type');
+// header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: Content-Type, X-Signature');
 
 // Конфигурация
 define('TELEGRAM_BOT_TOKEN', getenv('TELEGRAM_BOT_TOKEN') ?: '-');
+// define('TELEGRAM_CHAT_ID', getenv('TELEGRAM_CHAT_ID') ?: '2060119820');
 define('TELEGRAM_CHAT_ID', getenv('TELEGRAM_CHAT_ID') ?: '2060119820');
-define('HMAC_SECRET', getenv('HMAC_SECRET') ?: 'your-secret-key');
+define('HMAC_SECRET', getenv('HMAC_SECRET') ?: 'cor-it');
 
 // Ограничение количества запросов
 session_start();
@@ -45,7 +47,7 @@ function validateData($data) {
     }
     
     // Проверка времени запроса
-    if (isset($data['timestamp']) && (time() * 1000 - $data['timestamp']) > 300000) {
+    if ((time() - $data['timestamp']) > 300) {
         $errors[] = 'Подозрительный запрос';
     }
     
@@ -65,6 +67,7 @@ function sendToTelegram($data, $signature) {
     $message .= "📞 Телефон: " . htmlspecialchars($data['Phone']) . "\n";
     $message .= "📝 Сообщение: " . htmlspecialchars($data['message']) . "\n";
     $message .= "🔒 Подпись (HMAC): " . $signature . "\n";
+    $message .= "🔒 Timestamp: " . $data['timestamp'] . "\n";
     $message .= "⏰ Время: " . date('d.m.Y H:i:s') . "\n";
     
     // $url = "https://api.telegram.org/bot" . TELEGRAM_BOT_TOKEN . "/sendMessage";
@@ -72,18 +75,21 @@ function sendToTelegram($data, $signature) {
 
     
     $postData = [
-        'chat_id' => TELEGRAM_CHAT_ID,
-        'text' => $message,
-        'parse_mode' => 'Markdown'
+        'telegram_id' => TELEGRAM_CHAT_ID,
+        'message' => $message,
+        'timestamp' => $data['timestamp']
     ];
-    
+    $signature = createHMACSignature($postData);
     // Проверяем, доступен ли cURL
     if (function_exists('curl_init')) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Content-Type: application/json",
+            "x-signature: $signature"
+        ]);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Для локальной разработки
@@ -93,14 +99,16 @@ function sendToTelegram($data, $signature) {
         curl_close($ch);
         
         $responseData = json_decode($response, true);
-        return $httpCode === 200 && isset($responseData['ok']) && $responseData['ok'] === true;
+        // return $httpCode === 200 && isset($responseData['ok']) && $responseData['ok'] === true;
+        return $httpCode === 200;
     } 
     // Если cURL недоступен, используем file_get_contents с контекстом
     else {
         $context = stream_context_create([
             'http' => [
                 'method' => 'POST',
-                'header' => "Content-Type: application/json\r\n",
+                'header' => "Content-Type: application/json\r\n" .
+                "x-signature: " . $signature . "\r\n",
                 'content' => json_encode($postData),
                 'timeout' => 10
             ],
@@ -114,6 +122,9 @@ function sendToTelegram($data, $signature) {
         
         if ($response === false) {
             return false;
+        }
+        else {
+            return true;
         }
         
         $responseData = json_decode($response, true);
@@ -133,7 +144,7 @@ try {
         'Parents' => isset($_POST['Parents']) ? trim($_POST['Parents']) : '',
         'Phone' => isset($_POST['Phone']) ? trim($_POST['Phone']) : '',
         'message' => isset($_POST['message']) ? trim($_POST['message']) : '',
-        'timestamp' => isset($_POST['timestamp']) ? (int)$_POST['timestamp'] : time() * 1000,
+        'timestamp' => time(),
         'nonce' => isset($_POST['nonce']) ? $_POST['nonce'] : uniqid()
     ];
     
@@ -142,20 +153,25 @@ try {
     if (!empty($errors)) {
         throw new Exception(implode(', ', $errors));
     }
-    
     // Создание HMAC подписи
     $signature = createHMACSignature($data);
     
     // Отправка в Telegram
     $sent = sendToTelegram($data, $signature);
+    // echo json_encode(['success' => true, 'message' => $sent]);
     
     if ($sent) {
         echo json_encode(['success' => true, 'message' => 'Сообщение успешно отправлено!']);
     } else {
-        throw new Exception('Ошибка отправки сообщения в Telegram');
+        // throw new Exception('Ошибка отправки сообщения в Telegram');
+        http_response_code(502);
+        echo json_encode(['success' => false, 'message' => 'Ошибка отправки сообщения в Telegram']);
     }
     
 } catch (Exception $e) {
+    http_response_code(400);
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    // echo "<script>console.error('Ошибка сервера: " . addslashes($e->getMessage()) . "');</script>";
+    exit;
 }
 ?>

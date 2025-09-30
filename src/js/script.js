@@ -165,9 +165,11 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.success) {
                     alert('Сообщение успешно отправлено!');
+                    // console.log(data)
                     this.reset();
                 } else {
                     alert('Ошибка: ' + data.message);
+                    // console.log(data)
                 }
             })
             .catch(error => {
