@@ -63,7 +63,18 @@
       </script>
 </head>
 
-<body>
+<body onload="loading()" style="margin: 0; height: 100%; overflow: hidden">
+
+		<!-- Loading screen / Экран загрузки -->
+		<div id="ftco-loader" class="loadingScreen show fullscreen justify-content-center align-items-center"><div class="loader_icon_box"><img src="/mozaika.webp" alt="" class="loader_icon"></div></div>
+		<script>
+		function loading() {
+			document.body.style.margin = 0;
+			document.body.style.height = 0;
+			document.body.style.overflow = "auto";
+			document.querySelector(".loadingScreen").style.display = 'none';
+		}
+		</script>
 
   <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <symbol xmlns="http://www.w3.org/2000/svg" id="arrow-right-tail" viewBox="0 0 31 24" fill="none">
@@ -174,7 +185,7 @@
             <li class="phone text-capitalize text-white d-flex align-items-center me-4">
               <svg class="me-1" width="18" height="18">
                 <use xlink:href="#phone"></use>
-              </svg>тел: +7 964 036 33 99
+              </svg><a href="tel://79640363399">тел: +7 964 036 33 99 </a>
             </li>
 
           </ul>
@@ -465,7 +476,7 @@
 
         <div class="col-md-6 mt-5 mt-md-0">
           <div class="section-title">
-            <h2 class="display-4 mb-3">Добро пожаловать в детский центр «Мозаика»</h2>
+            <h2 class="display-4 mb-3">Детский центр «Мозаика»</h2>
           </div>
           <p>У нас малыши с 10 месяцев растут, учатся и играют в заботливой атмосфере. <br> 
             Соль-пещера, бассейн, арабский и английский языки, халяльное питание и подготовка к школе — всё для здоровья, радости и развития вашего ребёнка.</p>
@@ -733,7 +744,7 @@
       <div class="text-center mb-5">
         <button class="filter-button py-2 px-4 me-4 mt-2 mt-md-0 active" data-filter="*">Все</button>
         <button class="filter-button py-2 px-4 me-4 mt-2 mt-md-0" data-filter=".outdoor">Выездные</button>
-        <button class="filter-button py-2 px-4 me-4 mt-2 mt-md-0" data-filter=".party">Вечернки</button>
+        <button class="filter-button py-2 px-4 me-4 mt-2 mt-md-0" data-filter=".party">Вечеринки</button>
         <button class="filter-button py-2 px-4 me-4 mt-2 mt-md-0" data-filter=".sports">Спортивные</button>
       </div>
 
@@ -1083,7 +1094,7 @@
         <li class="phone text-capitalize mb-2 d-flex justify-content-center align-items-center">
           <svg class="text-primary me-1" width="18" height="18">
             <use xlink:href="#phone"></use>
-          </svg>8 964 036 33 99 
+          </svg><a href="tel://79640363399">+7 964 036 33 99 </a>
         </li>
         <li class="clock text-capitalize mb-2 d-flex justify-content-center align-items-center">
           <svg class="text-primary me-1" width="18" height="18">
