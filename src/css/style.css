@@ -823,7 +823,9 @@ iconify-icon.social-icon:hover {
   background: var(--accent-color);
 }
 
-
+.corit_tag{
+  width: 90px;
+}
 /* --------------------------------------------------------------
  Faqs Section
 /*----------------------------------------------*/
