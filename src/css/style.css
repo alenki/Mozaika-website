@@ -120,6 +120,11 @@ p {
   
 }
 
+.no_link{
+  cursor: none !important;
+  pointer-events: none !important;
+}
+
 a {
   color: inherit;
   text-decoration: none;
