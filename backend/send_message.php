@@ -8,7 +8,7 @@ header('Access-Control-Allow-Headers: Content-Type, X-Signature');
 // Конфигурация
 define('TELEGRAM_BOT_TOKEN', getenv('TELEGRAM_BOT_TOKEN') ?: '-');
 // define('TELEGRAM_CHAT_ID', getenv('TELEGRAM_CHAT_ID') ?: '2060119820');
-define('TELEGRAM_CHAT_ID', getenv('TELEGRAM_CHAT_ID') ?: '2060119820');
+define('TELEGRAM_CHAT_ID', getenv('TELEGRAM_CHAT_ID') ?: '5266004124');
 define('HMAC_SECRET', getenv('HMAC_SECRET') ?: 'cor-it');
 
 // Ограничение количества запросов
@@ -66,8 +66,8 @@ function sendToTelegram($data, $signature) {
     $message .= "👤 Имя: " . htmlspecialchars($data['Parents']) . "\n";
     $message .= "📞 Телефон: " . htmlspecialchars($data['Phone']) . "\n";
     $message .= "📝 Сообщение: " . htmlspecialchars($data['message']) . "\n";
-    $message .= "🔒 Подпись (HMAC): " . $signature . "\n";
-    $message .= "🔒 Timestamp: " . $data['timestamp'] . "\n";
+    // $message .= "🔒 Подпись (HMAC): " . $signature . "\n";
+    // $message .= "🔒 Timestamp: " . $data['timestamp'] . "\n";
     $message .= "⏰ Время: " . date('d.m.Y H:i:s') . "\n";
     
     // $url = "https://api.telegram.org/bot" . TELEGRAM_BOT_TOKEN . "/sendMessage";
